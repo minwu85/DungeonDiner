@@ -10,7 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://b7a3sthu2hgt3" path="res://art/Environment/Props/Static/Trees/Model_01/Size_03.png" id="7_i8tw1"]
 [ext_resource type="Texture2D" uid="uid://ce1bhttmiq7l4" path="res://art/Environment/Props/Static/Trees/Model_02/Size_02.png" id="8_nxund"]
 [ext_resource type="PackedScene" uid="uid://bsx5o2bhaujvq" path="res://scences/player.tscn" id="10_nxund"]
-[ext_resource type="PackedScene" uid="uid://bxya8uarmfgru" path="res://enemy.tscn" id="11_d4bdn"]
+[ext_resource type="PackedScene" uid="uid://bxya8uarmfgru" path="res://scences/enemy.tscn" id="11_d4bdn"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nxund"]
 texture = ExtResource("7_0y1m3")
