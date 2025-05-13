@@ -168,25 +168,21 @@ animation = &"ske_idle"
 offset = Vector2(0, -35)
 
 [node name="detection_area" type="Area2D" parent="."]
-visible = false
 position = Vector2(2, -10)
 collision_layer = 2
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="detection_area"]
-visible = false
 position = Vector2(-2, 0)
 shape = SubResource("CircleShape2D_qgdfx")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 position = Vector2(0, -7)
 shape = SubResource("CircleShape2D_qku5p")
 
 [node name="enemy_hitbox" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="enemy_hitbox"]
-visible = false
 position = Vector2(0, -13)
 shape = SubResource("CircleShape2D_iifgy")
 
