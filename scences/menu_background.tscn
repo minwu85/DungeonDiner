@@ -1,0 +1,34 @@
+[gd_scene load_steps=3 format=3 uid="uid://cjipwykdduhm7"]
+
+[ext_resource type="Script" uid="uid://12nocfsrvmua" path="res://scences/start_menu_background.gd" id="1_n658n"]
+[ext_resource type="Texture2D" uid="uid://bbr2kkh3py4d" path="res://art/Background/start_menu_background.png" id="1_vhw8q"]
+
+[node name="start_menu_background" type="ParallaxBackground"]
+script = ExtResource("1_n658n")
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0.2, 1)
+motion_mirroring = Vector2(845, 0)
+
+[node name="StartMenuBackground1" type="Sprite2D" parent="ParallaxLayer"]
+scale = Vector2(0.548125, 0.489375)
+texture = ExtResource("1_vhw8q")
+centered = false
+
+[node name="ParallaxLayer2" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0.5, 1)
+motion_mirroring = Vector2(845, 0)
+
+[node name="StartMenuBackground2" type="Sprite2D" parent="ParallaxLayer2"]
+scale = Vector2(0.548125, 0.489375)
+texture = ExtResource("1_vhw8q")
+centered = false
+
+[node name="ParallaxLayer3" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0.8, 1)
+motion_mirroring = Vector2(845, 0)
+
+[node name="StartMenuBackground3" type="Sprite2D" parent="ParallaxLayer3"]
+scale = Vector2(0.548125, 0.489375)
+texture = ExtResource("1_vhw8q")
+centered = false

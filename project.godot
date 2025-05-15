@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="DungeonDiner"
-run/main_scene="uid://c73xqqw7vgmb7"
+run/main_scene="uid://cb4epy8lxh4v0"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://art/icon.svg"
 
