@@ -1,6 +1,7 @@
-[gd_scene load_steps=13 format=4 uid="uid://d0xiw6o53gdt4"]
+[gd_scene load_steps=15 format=4 uid="uid://d0xiw6o53gdt4"]
 
 [ext_resource type="Texture2D" uid="uid://bid65k2w357eg" path="res://art/Environment/Tilesets/Dungeon_Tiles.png" id="1_hbrdx"]
+[ext_resource type="Script" uid="uid://djrmxckt8wtf" path="res://scripts/cliff_side.gd" id="1_ox6gk"]
 [ext_resource type="Texture2D" uid="uid://rfoq01t1hwn0" path="res://art/Environment/Tilesets/Floors_Tiles.png" id="2_3dq4o"]
 [ext_resource type="Texture2D" uid="uid://ce0wjgmbhdfg" path="res://art/Environment/Tilesets/Wall_Tiles.png" id="3_ox6gk"]
 [ext_resource type="Texture2D" uid="uid://dcyk2sgbq7j2y" path="res://art/Environment/Tilesets/Wall_Variations.png" id="4_ef1v3"]
@@ -1533,7 +1534,11 @@ sources/2 = SubResource("TileSetAtlasSource_jqvur")
 sources/3 = SubResource("TileSetAtlasSource_wcadm")
 sources/4 = SubResource("TileSetAtlasSource_dxp05")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ef1v3"]
+size = Vector2(23, 57)
+
 [node name="cliff_side" type="Node2D"]
+script = ExtResource("1_ox6gk")
 
 [node name="Node2D" type="Node2D" parent="."]
 
@@ -1550,7 +1555,15 @@ tile_set = SubResource("TileSet_2xcqp")
 [node name="collisions" type="StaticBody2D" parent="."]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="collisions"]
-polygon = PackedVector2Array(-4, 1, 480, -1, 481, 240, 1, 240, 0, 196, -20, 194, -21, 163, 0, 153, 0, 4, 0, 2, -6, 2, -27, 42, -35, 138, -21, 248, 491, 252, 491, -8, 10, -22, 1, -2, -3, 0)
+polygon = PackedVector2Array(-4, 1, 480, -1, 481, 240, 1, 240, 0, 196, -13, 198, -12, 152, 0, 153, 0, 4, 0, 2, -6, 2, -27, 42, -35, 138, -21, 248, 491, 252, 491, -8, 10, -22, 1, -2, -3, 0)
 
 [node name="player" parent="." instance=ExtResource("6_3dq4o")]
 position = Vector2(47, 181)
+
+[node name="cliffside_exitpoint" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="cliffside_exitpoint"]
+position = Vector2(-3, 176.5)
+shape = SubResource("RectangleShape2D_ef1v3")
+
+[connection signal="body_entered" from="cliffside_exitpoint" to="." method="_on_cliffside_exitpoint_body_entered"]

@@ -26,31 +26,32 @@ func _physics_process(delta):
 		self.queue_free()
 	
 func player_movement(delta):
-	if Input.is_action_pressed("ui_right"):
+	if Input.is_action_pressed("ui_right") or Input.is_action_pressed("move_right"):
 		current_dir = "right"
 		play_anim(1)
 		velocity.x = speed
 		velocity.y = 0
-	elif Input.is_action_pressed("ui_left"):
+	elif Input.is_action_pressed("ui_left") or Input.is_action_pressed("move_left"):
 		current_dir = "left"
 		play_anim(1)
 		velocity.x = -speed
 		velocity.y = 0
-	elif Input.is_action_pressed("ui_down"):
+	elif Input.is_action_pressed("ui_down") or Input.is_action_pressed("move_down"):
 		current_dir = "down"
 		play_anim(1)
 		velocity.y = speed
 		velocity.x = 0
-	elif Input.is_action_pressed("ui_up"):
+	elif Input.is_action_pressed("ui_up") or Input.is_action_pressed("move_up"):
 		current_dir = "up"
 		play_anim(1)
 		velocity.y = -speed
 		velocity.x = 0
 	else:
 		play_anim(0)
-		velocity.x=0
-		velocity.y=0
+		velocity = Vector2.ZERO
+
 	move_and_slide()
+
 func play_anim(movement):
 	var dir=current_dir
 	var anim=$AnimatedSprite2D
