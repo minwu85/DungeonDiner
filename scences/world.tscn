@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=4 uid="uid://c73xqqw7vgmb7"]
+[gd_scene load_steps=27 format=4 uid="uid://c73xqqw7vgmb7"]
 
 [ext_resource type="Script" uid="uid://dg7i7cdjinwrb" path="res://scripts/world.gd" id="1_73xyk"]
 [ext_resource type="Texture2D" uid="uid://b05txwfbvoml" path="res://art/Environment/Props/Static/Trees/Model_02/Size_03.png" id="1_hfnbe"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://ce1bhttmiq7l4" path="res://art/Environment/Props/Static/Trees/Model_02/Size_02.png" id="8_nxund"]
 [ext_resource type="PackedScene" uid="uid://bsx5o2bhaujvq" path="res://scences/player.tscn" id="10_nxund"]
 [ext_resource type="PackedScene" uid="uid://bxya8uarmfgru" path="res://scences/enemy.tscn" id="11_d4bdn"]
+[ext_resource type="PackedScene" uid="uid://bfcavodvx52eu" path="res://collectribles/gold.tscn" id="15_waw5s"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nxund"]
 texture = ExtResource("7_0y1m3")
@@ -1900,6 +1901,30 @@ sources/8 = SubResource("TileSetAtlasSource_rtt20")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_d4bdn"]
 size = Vector2(22, 37)
 
+[sub_resource type="GDScript" id="GDScript_1oksg"]
+script/source = "extends Label
+
+@onready var player = get_node(\"/root/world/player\")
+
+func _ready() -> void:
+	text = \"HP: \" + str(player.health)
+
+func _process(delta: float) -> void:
+	text = \"HP: \" + str(player.health)
+"
+
+[sub_resource type="GDScript" id="GDScript_0y1m3"]
+script/source = "extends Label
+
+@onready var player = get_node(\"/root/world/player\")
+
+func _ready() -> void:
+	text = \"Gold: \" + str(player.gold)
+
+func _process(delta: float) -> void:
+	text = \"Gold: \" + str(player.gold)
+"
+
 [node name="world" type="Node2D"]
 y_sort_enabled = true
 script = ExtResource("1_73xyk")
@@ -1923,7 +1948,7 @@ tile_map_data = PackedByteArray("AAADAAUAAQAAAAAAAAADAAYAAQAAAAEAAAADAAcAAQAAAAI
 tile_set = SubResource("TileSet_7qjlj")
 
 [node name="player" parent="." instance=ExtResource("10_nxund")]
-position = Vector2(434, 189)
+position = Vector2(142, 67)
 
 [node name="enemy" parent="." instance=ExtResource("11_d4bdn")]
 position = Vector2(295, 64)
@@ -1938,5 +1963,28 @@ polygon = PackedVector2Array(1, 0, 264, 0, 464, 0, 464, 165, 486, 165, 486, 202,
 [node name="CollisionShape2D" type="CollisionShape2D" parent="cliffside_transition_point"]
 position = Vector2(475, 183.5)
 shape = SubResource("RectangleShape2D_d4bdn")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HP" type="Label" parent="CanvasLayer"]
+offset_left = 3.0
+offset_top = 34.0
+offset_right = 43.0
+offset_bottom = 57.0
+text = "HP: "
+script = SubResource("GDScript_1oksg")
+
+[node name="Gold" type="Label" parent="CanvasLayer"]
+offset_left = 2.0
+offset_top = 55.0
+offset_right = 42.0
+offset_bottom = 78.0
+text = "Gold: "
+script = SubResource("GDScript_0y1m3")
+
+[node name="collectibles" type="Node2D" parent="."]
+
+[node name="gold" parent="collectibles" instance=ExtResource("15_waw5s")]
+position = Vector2(177, 53)
 
 [connection signal="body_entered" from="cliffside_transition_point" to="." method="_on_cliffside_transition_point_body_entered"]

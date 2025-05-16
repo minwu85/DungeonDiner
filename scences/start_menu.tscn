@@ -7,22 +7,31 @@
 script = ExtResource("1_qkhln")
 
 [node name="play" type="Button" parent="."]
-offset_left = 398.0
-offset_top = 116.0
-offset_right = 614.0
-offset_bottom = 216.0
+offset_left = 474.0
+offset_top = 124.0
+offset_right = 690.0
+offset_bottom = 224.0
 theme_override_font_sizes/font_size = 48
 text = "Play"
 
 [node name="quit" type="Button" parent="."]
-offset_left = 403.0
-offset_top = 262.0
-offset_right = 619.0
-offset_bottom = 362.0
-theme_override_font_sizes/font_size = 48
+offset_left = 1027.0
+offset_top = 595.0
+offset_right = 1139.0
+offset_bottom = 637.0
+theme_override_font_sizes/font_size = 24
 text = "Quit"
+
+[node name="setting" type="Button" parent="."]
+offset_left = 473.0
+offset_top = 250.0
+offset_right = 691.0
+offset_bottom = 348.0
+theme_override_font_sizes/font_size = 48
+text = "Setting"
 
 [node name="start_menu_background" parent="." instance=ExtResource("2_iifx6")]
 
 [connection signal="pressed" from="play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="setting" to="." method="_on_setting_pressed"]
