@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://bfcavodvx52eu"]
 
 [ext_resource type="Script" uid="uid://bhedyrhmsaggd" path="res://collectribles/gold.gd" id="1_cedbx"]
-[ext_resource type="Texture2D" uid="uid://df2wqtc8fxc6l" path="res://art/2D横板/MonedaD.png" id="1_tal8t"]
+[ext_resource type="Texture2D" path="res://art/2D横板/MonedaD.png" id="1_tal8t"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1p357"]
 atlas = ExtResource("1_tal8t")

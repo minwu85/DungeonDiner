@@ -104,7 +104,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ar8e5")
 }],
-"loop": true,
+"loop": false,
 "name": &"ske_death",
 "speed": 5.0
 }, {
@@ -164,7 +164,7 @@ script = ExtResource("1_iifgy")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, 4)
 sprite_frames = SubResource("SpriteFrames_jpbtr")
-animation = &"ske_idle"
+animation = &"ske_death"
 offset = Vector2(0, -35)
 
 [node name="detection_area" type="Area2D" parent="."]

@@ -1951,7 +1951,7 @@ tile_set = SubResource("TileSet_7qjlj")
 position = Vector2(142, 67)
 
 [node name="enemy" parent="." instance=ExtResource("11_d4bdn")]
-position = Vector2(295, 64)
+position = Vector2(289, 70)
 
 [node name="collisions" type="StaticBody2D" parent="."]
 
