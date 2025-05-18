@@ -12,12 +12,15 @@ enum PlayerState {
 
 var enemy_inattack_range=false
 var enemy_attack_cooldown =true
-var health=100
-var gold=0
 var player_alive=true
-
 var attack_ip=false
 var is_collecting = false
+
+var health=100
+var gold=0
+var walk_speed = 1.0
+var run_speed = 2.0
+var movement_type = 1  # 1 for walk, 2 for run (used by play_anim)
 
 const speed = 100
 var current_dir = "none"
@@ -27,19 +30,19 @@ var current_dir = "none"
 func _ready():
 	animPlayer.play("idle_down")
 
-
 func _physics_process(delta):
+
 	if player_alive:
 		player_movement(delta)
 		enemy_attack()
 		attack()
 		current_camera()
 
-		if health <= 0:
+		if health <= 0:#check player health variable 
 			health = 0
-			player_death()
+			player_death()#call deaht animation 
 			
-func player_death():
+func player_death():#death animtion for death then directed to menu
 	player_alive = false
 	print("player has been killed")
 	match current_dir:
@@ -54,28 +57,45 @@ func player_death():
 	await animPlayer.animation_finished
 	self.queue_free()
 	get_tree().change_scene_to_file("res://scences/start_menu.tscn")
-	#need to fix the issues with player no disappear after animation finish and direct to home page 
+
+
 	
-func player_movement(delta):#player movement direction (wasd)
+func player_movement(delta):
+	var speed_multiplier = walk_speed  # default to walking
+	
+	#this set the speed for run 
+	if Input.is_action_pressed("run"): 
+		movement_type = 2
+		speed_multiplier = run_speed 
+	else:
+		movement_type = 1
+		speed_multiplier = walk_speed
+
+	if player_alive and Input.is_action_pressed("slice") and not attack_ip:
+		slice_state()
+
+	
+	#player movement action
 	if Input.is_action_pressed("ui_right") or Input.is_action_pressed("move_right"):
 		current_dir = "right"
-		play_anim(1)
-		velocity.x = speed
+		play_anim(movement_type)
+		velocity.x = speed * speed_multiplier
 		velocity.y = 0
+		#print("you are: ", speed_multiplier) #test player speed
 	elif Input.is_action_pressed("ui_left") or Input.is_action_pressed("move_left"):
 		current_dir = "left"
-		play_anim(1)
-		velocity.x = -speed
+		play_anim(movement_type)
+		velocity.x = -speed * speed_multiplier
 		velocity.y = 0
 	elif Input.is_action_pressed("ui_down") or Input.is_action_pressed("move_down"):
 		current_dir = "down"
-		play_anim(1)
-		velocity.y = speed
+		play_anim(movement_type)
+		velocity.y = speed * speed_multiplier
 		velocity.x = 0
 	elif Input.is_action_pressed("ui_up") or Input.is_action_pressed("move_up"):
 		current_dir = "up"
-		play_anim(1)
-		velocity.y = -speed
+		play_anim(movement_type)
+		velocity.y = -speed * speed_multiplier
 		velocity.x = 0
 	else:
 		play_anim(0)
@@ -83,14 +103,16 @@ func player_movement(delta):#player movement direction (wasd)
 
 	move_and_slide()
 
+
 func play_anim(movement):#play movement animation 
 	var dir=current_dir
-	if is_collecting:
-		return
+	
 	if dir == "right":
 		animPlayer.flip_h=false
 		if movement == 1:
 			animPlayer.play("walk_side")
+		elif movement==2:
+			animPlayer.play("run_side")		
 		elif movement == 0:
 			if attack_ip == false:
 				animPlayer.play("idle_side")
@@ -98,6 +120,8 @@ func play_anim(movement):#play movement animation
 		animPlayer.flip_h=true
 		if movement == 1:
 			animPlayer.play("walk_side")
+		elif movement==2:
+			animPlayer.play("run_side")	
 		elif movement == 0:
 			if attack_ip == false:
 				animPlayer.play("idle_side")
@@ -105,6 +129,8 @@ func play_anim(movement):#play movement animation
 		animPlayer.flip_h=true
 		if movement == 1:
 			animPlayer.play("walk_down")
+		elif movement==2:
+			animPlayer.play("run_down")	
 		elif movement == 0:
 			if attack_ip == false:
 				animPlayer.play("idle_down")
@@ -112,10 +138,15 @@ func play_anim(movement):#play movement animation
 		animPlayer.flip_h=true
 		if movement == 1:
 			animPlayer.play("walk_up")
+		elif movement==2:
+			animPlayer.play("run_up")	
 		elif movement == 0:
 			if attack_ip == false:
 				animPlayer.play("idle_up")
-
+		
+	if is_collecting:#player collected animation 
+		return
+		
 func player():
 	pass
 
@@ -139,7 +170,7 @@ func enemy_attack():
 func _on_attack_cooldown_timeout():
 	enemy_attack_cooldown=true
 
-func attack():
+func attack():#player attack animation 
 	var dir = current_dir
 
 	if Input.is_action_just_pressed("attack"):
@@ -166,7 +197,7 @@ func _on_deal_attack_timer_timeout():
 	global.player_current_attack=false
 	attack_ip=false
 	
-func play_collect_animation():
+func collect_state():
 	if is_collecting:
 		return
 	is_collecting = true
@@ -183,6 +214,23 @@ func play_collect_animation():
 	await get_tree().create_timer(0.5).timeout  # adjust duration to match your animation
 	is_collecting = false
 	print("Item collected")
+
+func slice_state():
+	attack_ip = true  # prevent reentry
+	match current_dir:
+		"right", "left":
+			animPlayer.flip_h = (current_dir == "left")
+			animPlayer.play("slice_side")
+		"down":
+			animPlayer.flip_h = false
+			animPlayer.play("slice_down")
+		"up":
+			animPlayer.flip_h = false
+			animPlayer.play("slice_up")
+	await animPlayer.animation_finished
+	print("player slice hit, damage x2")
+	attack_ip = false  # re-enable attack
+
 
 func current_camera():#camera control
 	if global.current_scene=="world":

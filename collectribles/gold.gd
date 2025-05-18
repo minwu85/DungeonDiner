@@ -2,11 +2,11 @@ extends Area2D
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.name == "player":
-		if not body.has_method("play_collect_animation"):
+		if not body.has_method("collect_state"):
 			return
 
 		# Trigger the collect animation ONCE
-		body.play_collect_animation()
+		body.collect_state()
 
 		# Gold visual feedback
 		var tween = get_tree().create_tween()

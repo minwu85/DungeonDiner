@@ -12,7 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://ce1bhttmiq7l4" path="res://art/Environment/Props/Static/Trees/Model_02/Size_02.png" id="8_nxund"]
 [ext_resource type="PackedScene" uid="uid://bsx5o2bhaujvq" path="res://scences/player.tscn" id="10_nxund"]
 [ext_resource type="PackedScene" uid="uid://bxya8uarmfgru" path="res://scences/enemy.tscn" id="11_d4bdn"]
-[ext_resource type="PackedScene" uid="uid://bfcavodvx52eu" path="res://collectribles/gold.tscn" id="15_waw5s"]
+[ext_resource type="PackedScene" uid="uid://dpwpdale33xq6" path="res://collectribles/gold.tscn" id="15_waw5s"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nxund"]
 texture = ExtResource("7_0y1m3")
@@ -1985,6 +1985,6 @@ script = SubResource("GDScript_0y1m3")
 [node name="collectibles" type="Node2D" parent="."]
 
 [node name="gold" parent="collectibles" instance=ExtResource("15_waw5s")]
-position = Vector2(177, 53)
+position = Vector2(199, 53)
 
 [connection signal="body_entered" from="cliffside_transition_point" to="." method="_on_cliffside_transition_point_body_entered"]
