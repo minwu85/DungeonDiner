@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=4 uid="uid://d0xiw6o53gdt4"]
+[gd_scene load_steps=17 format=4 uid="uid://d0xiw6o53gdt4"]
 
 [ext_resource type="Texture2D" uid="uid://bid65k2w357eg" path="res://art/Environment/Tilesets/Dungeon_Tiles.png" id="1_hbrdx"]
 [ext_resource type="Script" uid="uid://djrmxckt8wtf" path="res://scripts/cliff_side.gd" id="1_ox6gk"]
@@ -7,6 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://dcyk2sgbq7j2y" path="res://art/Environment/Tilesets/Wall_Variations.png" id="4_ef1v3"]
 [ext_resource type="Texture2D" uid="uid://co663hc0ymapy" path="res://art/Environment/Tilesets/Water_tiles.png" id="5_h4q5s"]
 [ext_resource type="PackedScene" uid="uid://bsx5o2bhaujvq" path="res://scences/player.tscn" id="6_3dq4o"]
+[ext_resource type="PackedScene" uid="uid://bathd1nlvrgr3" path="res://build/shop.tscn" id="7_ef1v3"]
+[ext_resource type="Texture2D" uid="uid://dsd3xb7x4u8ei" path="res://art/art2/circle.png" id="9_h4q5s"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_h2r8g"]
 texture = ExtResource("1_hbrdx")
@@ -1557,6 +1559,9 @@ tile_set = SubResource("TileSet_2xcqp")
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="collisions"]
 polygon = PackedVector2Array(-4, 1, 480, -1, 481, 240, 1, 240, 0, 196, -13, 198, -12, 152, 0, 153, 0, 4, 0, 2, -6, 2, -27, 42, -35, 138, -21, 248, 491, 252, 491, -8, 10, -22, 1, -2, -3, 0)
 
+[node name="shop" parent="." instance=ExtResource("7_ef1v3")]
+position = Vector2(160, 101)
+
 [node name="player" parent="." instance=ExtResource("6_3dq4o")]
 position = Vector2(47, 181)
 
@@ -1566,4 +1571,20 @@ position = Vector2(47, 181)
 position = Vector2(-3, 176.5)
 shape = SubResource("RectangleShape2D_ef1v3")
 
+[node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]
+blend_mode = 1
+range_layer_min = -1
+shadow_enabled = true
+
+[node name="day_night" type="Timer" parent="."]
+wait_time = 30.0
+autostart = true
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(164, 132)
+scale = Vector2(0.203828, 0.209844)
+color = Color(0.991831, 0.86887, 0.724311, 1)
+texture = ExtResource("9_h4q5s")
+
 [connection signal="body_entered" from="cliffside_exitpoint" to="." method="_on_cliffside_exitpoint_body_entered"]
+[connection signal="timeout" from="day_night" to="." method="_on_day_night_timeout"]

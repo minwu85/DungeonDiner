@@ -197,7 +197,7 @@ func _on_deal_attack_timer_timeout():
 	global.player_current_attack=false
 	attack_ip=false
 	
-func collect_state():
+func collect_state():#player collect anim
 	if is_collecting:
 		return
 	is_collecting = true
@@ -215,7 +215,7 @@ func collect_state():
 	is_collecting = false
 	print("Item collected")
 
-func slice_state():
+func slice_state():#player collect anim
 	attack_ip = true  # prevent reentry
 	match current_dir:
 		"right", "left":
@@ -232,7 +232,7 @@ func slice_state():
 	attack_ip = false  # re-enable attack
 
 
-func current_camera():#camera control
+func current_camera():#camera control for scence change 
 	if global.current_scene=="world":
 		$world_camera.enabled=true
 		$cliffside_camera.enabled=false

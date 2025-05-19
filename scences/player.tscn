@@ -1,4 +1,4 @@
-[gd_scene load_steps=158 format=3 uid="uid://bsx5o2bhaujvq"]
+[gd_scene load_steps=160 format=3 uid="uid://bsx5o2bhaujvq"]
 
 [ext_resource type="Script" uid="uid://c4nudrtx7785" path="res://scripts/player.gd" id="1_s4ay6"]
 [ext_resource type="Texture2D" uid="uid://yex0qyciqmwr" path="res://art/Entities/Characters/Body_A/Animations/Hit_Base/Hit_Down-Sheet.png" id="2_eqdch"]
@@ -22,6 +22,7 @@
 [ext_resource type="Texture2D" uid="uid://c3krvtn5p7hxp" path="res://art/Entities/Characters/Body_A/Animations/Slice_Base/Slice_Down-Sheet.png" id="17_an8qn"]
 [ext_resource type="Texture2D" uid="uid://hbagkcloi76h" path="res://art/Entities/Characters/Body_A/Animations/Slice_Base/Slice_Side-Sheet.png" id="18_6bm75"]
 [ext_resource type="Texture2D" uid="uid://culu0etyxkpri" path="res://art/Entities/Characters/Body_A/Animations/Slice_Base/Slice_Up-Sheet.png" id="19_vj1ur"]
+[ext_resource type="Texture2D" uid="uid://dsd3xb7x4u8ei" path="res://art/art2/circle.png" id="23_6bm75"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_txj7h"]
 atlas = ExtResource("2_p2nax")
@@ -1061,6 +1062,9 @@ radius = 8.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_eqdch"]
 radius = 16.0
 
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_6bm75"]
+polygon = PackedVector2Array(-53.3333, 310.204, 195.556, 310.204, 160, 277.551, -17.7778, 277.551)
+
 [node name="player" type="CharacterBody2D"]
 collision_layer = 3
 script = ExtResource("1_s4ay6")
@@ -1068,7 +1072,7 @@ script = ExtResource("1_s4ay6")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(1, 0)
 sprite_frames = SubResource("SpriteFrames_h6w8y")
-animation = &"slice_side"
+animation = &"idle_side"
 offset = Vector2(0, -15)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -1109,6 +1113,18 @@ limit_right = 450
 limit_bottom = 240
 
 [node name="death_timer" type="Timer" parent="."]
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(2, -15)
+scale = Vector2(0.0475, 0.04625)
+energy = 0.7
+texture = ExtResource("23_6bm75")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+visible = false
+position = Vector2(-3, -18)
+scale = Vector2(0.05625, 0.06125)
+occluder = SubResource("OccluderPolygon2D_6bm75")
 
 [connection signal="body_entered" from="player_hitbox" to="." method="_on_player_hitbox_body_entered"]
 [connection signal="body_exited" from="player_hitbox" to="." method="_on_player_hitbox_body_exited"]
