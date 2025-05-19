@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=3 uid="uid://dpwpdale33xq6"]
 
-[ext_resource type="Script" uid="uid://bgqygbqdewgfb" path="res://collectribles/gold.gd" id="1_1p357"]
+[ext_resource type="Script" uid="uid://bgqygbqdewgfb" path="res://scn/collectribles/gold.gd" id="1_1p357"]
 [ext_resource type="Texture2D" uid="uid://df2wqtc8fxc6l" path="res://art/art2/MonedaD.png" id="2_v68ff"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5tshw"]

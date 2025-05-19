@@ -1,10 +1,10 @@
 [gd_scene load_steps=3 format=3 uid="uid://cb4epy8lxh4v0"]
 
-[ext_resource type="Script" uid="uid://byv3ww0h4h3j2" path="res://scripts/start_menu.gd" id="1_qkhln"]
-[ext_resource type="PackedScene" uid="uid://cjipwykdduhm7" path="res://scences/menu_background.tscn" id="2_iifx6"]
+[ext_resource type="Script" uid="uid://byv3ww0h4h3j2" path="res://scn/menu/start_menu.gd" id="1_fkgru"]
+[ext_resource type="PackedScene" uid="uid://cjipwykdduhm7" path="res://scn/menu/menu_background.tscn" id="2_ig1x2"]
 
 [node name="startmenu" type="Node2D"]
-script = ExtResource("1_qkhln")
+script = ExtResource("1_fkgru")
 
 [node name="play" type="Button" parent="."]
 offset_left = 474.0
@@ -30,7 +30,7 @@ offset_bottom = 348.0
 theme_override_font_sizes/font_size = 48
 text = "Setting"
 
-[node name="start_menu_background" parent="." instance=ExtResource("2_iifx6")]
+[node name="start_menu_background" parent="." instance=ExtResource("2_ig1x2")]
 
 [connection signal="pressed" from="play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="quit" to="." method="_on_quit_pressed"]

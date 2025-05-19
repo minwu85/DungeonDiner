@@ -17,7 +17,7 @@ config/icon="res://art/icon.svg"
 
 [autoload]
 
-global="*res://scripts/global.gd"
+global="*res://scn/scences/global.gd"
 
 [input]
 

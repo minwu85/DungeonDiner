@@ -1,6 +1,6 @@
 [gd_scene load_steps=160 format=3 uid="uid://bsx5o2bhaujvq"]
 
-[ext_resource type="Script" uid="uid://c4nudrtx7785" path="res://scripts/player.gd" id="1_s4ay6"]
+[ext_resource type="Script" uid="uid://c4nudrtx7785" path="res://scn/player/player.gd" id="1_s4ay6"]
 [ext_resource type="Texture2D" uid="uid://yex0qyciqmwr" path="res://art/Entities/Characters/Body_A/Animations/Hit_Base/Hit_Down-Sheet.png" id="2_eqdch"]
 [ext_resource type="Texture2D" uid="uid://ct77ikg8xj4sn" path="res://art/Entities/Characters/Body_A/Animations/Collect_Base/Collect_Down-Sheet.png" id="2_p2nax"]
 [ext_resource type="Texture2D" uid="uid://kfbl6k3vh3eb" path="res://art/Entities/Characters/Body_A/Animations/Collect_Base/Collect_Side-Sheet.png" id="3_m5li5"]
@@ -1063,7 +1063,7 @@ radius = 8.0
 radius = 16.0
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_6bm75"]
-polygon = PackedVector2Array(-53.3333, 310.204, 195.556, 310.204, 160, 277.551, -17.7778, 277.551)
+polygon = PackedVector2Array(-35.5555, 310.204, 177.778, 310.204, 160, 293.878, -17.7778, 293.878)
 
 [node name="player" type="CharacterBody2D"]
 collision_layer = 3
@@ -1092,7 +1092,9 @@ wait_time = 0.5
 [node name="deal_attack_timer" type="Timer" parent="."]
 wait_time = 0.5
 
-[node name="world_camera" type="Camera2D" parent="."]
+[node name="player_camera" type="Node2D" parent="."]
+
+[node name="world_camera" type="Camera2D" parent="player_camera"]
 zoom = Vector2(4, 4)
 process_callback = 0
 limit_left = 0
@@ -1104,7 +1106,7 @@ rotation_smoothing_enabled = true
 drag_horizontal_enabled = true
 drag_vertical_enabled = true
 
-[node name="cliffside_camera" type="Camera2D" parent="."]
+[node name="cliffside_camera" type="Camera2D" parent="player_camera"]
 zoom = Vector2(4, 4)
 process_callback = 0
 limit_left = 0
@@ -1114,13 +1116,15 @@ limit_bottom = 240
 
 [node name="death_timer" type="Timer" parent="."]
 
-[node name="PointLight2D" type="PointLight2D" parent="."]
+[node name="player_light" type="Node2D" parent="."]
+
+[node name="PointLight2D" type="PointLight2D" parent="player_light"]
 position = Vector2(2, -15)
 scale = Vector2(0.0475, 0.04625)
 energy = 0.7
 texture = ExtResource("23_6bm75")
 
-[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+[node name="LightOccluder2D" type="LightOccluder2D" parent="player_light"]
 visible = false
 position = Vector2(-3, -18)
 scale = Vector2(0.05625, 0.06125)

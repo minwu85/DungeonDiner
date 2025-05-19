@@ -1,6 +1,6 @@
-[gd_scene load_steps=27 format=4 uid="uid://c73xqqw7vgmb7"]
+[gd_scene load_steps=31 format=4 uid="uid://c73xqqw7vgmb7"]
 
-[ext_resource type="Script" uid="uid://dg7i7cdjinwrb" path="res://scripts/world.gd" id="1_73xyk"]
+[ext_resource type="Script" uid="uid://dg7i7cdjinwrb" path="res://scn/scences/world.gd" id="1_73xyk"]
 [ext_resource type="Texture2D" uid="uid://b05txwfbvoml" path="res://art/Environment/Props/Static/Trees/Model_02/Size_03.png" id="1_hfnbe"]
 [ext_resource type="Texture2D" uid="uid://bid65k2w357eg" path="res://art/Environment/Tilesets/Dungeon_Tiles.png" id="2_i8tw1"]
 [ext_resource type="Texture2D" uid="uid://rfoq01t1hwn0" path="res://art/Environment/Tilesets/Floors_Tiles.png" id="3_nxund"]
@@ -10,9 +10,9 @@
 [ext_resource type="Texture2D" uid="uid://dgtvvehu54sxh" path="res://art/Environment/Props/Static/Trees/Model_01/Size_02.png" id="7_0y1m3"]
 [ext_resource type="Texture2D" uid="uid://b7a3sthu2hgt3" path="res://art/Environment/Props/Static/Trees/Model_01/Size_03.png" id="7_i8tw1"]
 [ext_resource type="Texture2D" uid="uid://ce1bhttmiq7l4" path="res://art/Environment/Props/Static/Trees/Model_02/Size_02.png" id="8_nxund"]
-[ext_resource type="PackedScene" uid="uid://bsx5o2bhaujvq" path="res://scences/player.tscn" id="10_nxund"]
-[ext_resource type="PackedScene" uid="uid://bxya8uarmfgru" path="res://scences/enemy.tscn" id="11_d4bdn"]
-[ext_resource type="PackedScene" uid="uid://dpwpdale33xq6" path="res://collectribles/gold.tscn" id="15_waw5s"]
+[ext_resource type="PackedScene" uid="uid://bsx5o2bhaujvq" path="res://scn/player/player.tscn" id="10_nxund"]
+[ext_resource type="PackedScene" uid="uid://bxya8uarmfgru" path="res://scn/enemy/enemy.tscn" id="11_d4bdn"]
+[ext_resource type="PackedScene" uid="uid://dpwpdale33xq6" path="res://scn/collectribles/gold.tscn" id="15_waw5s"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nxund"]
 texture = ExtResource("7_0y1m3")
@@ -1904,7 +1904,7 @@ size = Vector2(22, 37)
 [sub_resource type="GDScript" id="GDScript_1oksg"]
 script/source = "extends Label
 
-@onready var player = get_node(\"/root/world/player\")
+@onready var player = get_node(\"/root/world/player/player\")
 
 func _ready() -> void:
 	text = \"HP: \" + str(player.health)
@@ -1916,7 +1916,7 @@ func _process(delta: float) -> void:
 [sub_resource type="GDScript" id="GDScript_0y1m3"]
 script/source = "extends Label
 
-@onready var player = get_node(\"/root/world/player\")
+@onready var player = get_node(\"/root/world/player/player\")
 
 func _ready() -> void:
 	text = \"Gold: \" + str(player.gold)
@@ -1924,6 +1924,58 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	text = \"Gold: \" + str(player.gold)
 "
+
+[sub_resource type="Animation" id="Animation_0y1m3"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_1oksg"]
+resource_name = "day_fade_in"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_waw5s"]
+resource_name = "day_fade_out"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2dxml"]
+_data = {
+&"RESET": SubResource("Animation_0y1m3"),
+&"day_fade_in": SubResource("Animation_1oksg"),
+&"day_fade_out": SubResource("Animation_waw5s")
+}
 
 [node name="world" type="Node2D"]
 y_sort_enabled = true
@@ -1947,10 +1999,14 @@ use_parent_material = true
 tile_map_data = PackedByteArray("AAADAAUAAQAAAAAAAAADAAYAAQAAAAEAAAADAAcAAQAAAAIAAAADAAgAAQAAAAMAAAADAAkAAQAAAAQAAAAEAAUAAQABAAAAAAAEAAYAAQABAAEAAAAEAAcAAQABAAIAAAAEAAgAAQABAAMAAAAEAAkAAQABAAQAAAAEAAoAAQABAAUAAAAFAAUAAQACAAAAAAAFAAYAAQACAAEAAAAFAAcAAQACAAIAAAAFAAgAAQACAAMAAAAFAAkAAQACAAQAAAA=")
 tile_set = SubResource("TileSet_7qjlj")
 
-[node name="player" parent="." instance=ExtResource("10_nxund")]
-position = Vector2(142, 67)
+[node name="player" type="Node2D" parent="."]
 
-[node name="enemy" parent="." instance=ExtResource("11_d4bdn")]
+[node name="player" parent="player" instance=ExtResource("10_nxund")]
+position = Vector2(148, 68)
+
+[node name="enemy" type="Node2D" parent="."]
+
+[node name="enemy" parent="enemy" instance=ExtResource("11_d4bdn")]
 position = Vector2(289, 70)
 
 [node name="collisions" type="StaticBody2D" parent="."]
@@ -1964,37 +2020,56 @@ polygon = PackedVector2Array(1, 0, 264, 0, 464, 0, 464, 165, 486, 165, 486, 202,
 position = Vector2(475, 183.5)
 shape = SubResource("RectangleShape2D_d4bdn")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="HP" type="Label" parent="CanvasLayer"]
-offset_left = 3.0
-offset_top = 34.0
-offset_right = 43.0
-offset_bottom = 57.0
-text = "HP: "
-script = SubResource("GDScript_1oksg")
-
-[node name="Gold" type="Label" parent="CanvasLayer"]
-offset_left = 2.0
-offset_top = 55.0
-offset_right = 42.0
-offset_bottom = 78.0
-text = "Gold: "
-script = SubResource("GDScript_0y1m3")
-
 [node name="collectibles" type="Node2D" parent="."]
 
 [node name="gold" parent="collectibles" instance=ExtResource("15_waw5s")]
 position = Vector2(199, 53)
 
-[node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]
+[node name="light" type="Node2D" parent="."]
+
+[node name="sun" type="DirectionalLight2D" parent="light"]
+visible = false
 blend_mode = 1
 range_layer_min = -1
-shadow_enabled = true
 
-[node name="day_night" type="Timer" parent="."]
+[node name="day_night" type="Timer" parent="light"]
 wait_time = 30.0
 autostart = true
 
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HP" type="Label" parent="CanvasLayer"]
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 44.0
+offset_bottom = 27.0
+text = "HP: "
+script = SubResource("GDScript_1oksg")
+
+[node name="Gold" type="Label" parent="CanvasLayer"]
+offset_left = 81.0
+offset_top = 5.0
+offset_right = 126.0
+offset_bottom = 28.0
+text = "Gold: "
+script = SubResource("GDScript_0y1m3")
+
+[node name="Day" type="Label" parent="CanvasLayer"]
+modulate = Color(1, 1, 1, 0)
+offset_left = 197.0
+offset_top = 2.0
+offset_right = 264.0
+offset_bottom = 47.0
+theme_override_font_sizes/font_size = 32
+text = "Day "
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer"]
+root_node = NodePath("../Day")
+libraries = {
+&"": SubResource("AnimationLibrary_2dxml")
+}
+
 [connection signal="body_entered" from="cliffside_transition_point" to="." method="_on_cliffside_transition_point_body_entered"]
-[connection signal="timeout" from="day_night" to="." method="_on_day_night_timeout"]
+[connection signal="timeout" from="light/day_night" to="." method="_on_day_night_timeout"]

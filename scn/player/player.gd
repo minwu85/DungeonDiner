@@ -56,7 +56,7 @@ func player_death():#death animtion for death then directed to menu
 			animPlayer.play("death_up")
 	await animPlayer.animation_finished
 	self.queue_free()
-	get_tree().change_scene_to_file("res://scences/start_menu.tscn")
+	get_tree().change_scene_to_file("res://scn/menu/start_menu.tscn")#start_menu
 
 
 	
@@ -234,8 +234,8 @@ func slice_state():#player collect anim
 
 func current_camera():#camera control for scence change 
 	if global.current_scene=="world":
-		$world_camera.enabled=true
-		$cliffside_camera.enabled=false
+		$player_camera/world_camera.enabled=true
+		$player_camera/cliffside_camera.enabled=false
 	elif global.current_scene=="cliff_side":
-			$world_camera.enabled=false
-			$cliffside_camera.enabled=true
+			$player_camera/world_camera.enabled=false
+			$player_camera/cliffside_camera.enabled=true
