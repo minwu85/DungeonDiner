@@ -18,8 +18,7 @@ var player_alive = true
 var attack_ip = false
 var is_collecting = false
 
-var max_health = 100
-var health = 100
+
 var gold = 0
 var walk_speed = 1.0
 var run_speed = 2.0
@@ -33,7 +32,7 @@ var current_dir = "none"
 
 func _ready():
 	animPlayer.play("idle_down")
-	health=max_health
+
 
 func _physics_process(delta):
 
@@ -43,9 +42,6 @@ func _physics_process(delta):
 		attack()
 		current_camera()
 		
-		if health <= 0:#check player health variable 
-			health = 0
-			player_death()#call deaht animation 
 			
 func player_death():#death animtion for death then directed to menu
 	player_alive = false
@@ -171,13 +167,16 @@ func _on_player_hitbox_body_exited(body: Node2D) -> void:
 func on_damage_receive(damage: int):
 	if not player_alive:
 		return
+	if global.player_health <= 0:#check player health variable 
+			global.player_health = 0
+			player_death()#call deaht animation 
 	if enemy_inattack_range and enemy_attack_cooldown:
-		health -= damage
+		global.player_health -= damage
 		enemy_attack_cooldown = false
 		$attack_cooldown.start()
 		#print("Player Health:", health) #display player health in text
-		emit_signal("health_change_bar", health)
-
+		emit_signal("health_change_bar", global.player_health)
+	
 func enemy_attack():
 	if not player_alive:
 		return
@@ -227,7 +226,7 @@ func collect_state():#player collect anim
 			animPlayer.play("collect_up")
 	await get_tree().create_timer(0.5).timeout  # adjust duration to match your animation
 	is_collecting = false
-	print("Item collected")
+	print("Item collected, gold ",gold) 
 
 
 func slice_state():
