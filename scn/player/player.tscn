@@ -1,4 +1,4 @@
-[gd_scene load_steps=160 format=3 uid="uid://bsx5o2bhaujvq"]
+[gd_scene load_steps=161 format=3 uid="uid://bsx5o2bhaujvq"]
 
 [ext_resource type="Script" uid="uid://c4nudrtx7785" path="res://scn/player/player.gd" id="1_s4ay6"]
 [ext_resource type="Texture2D" uid="uid://yex0qyciqmwr" path="res://art/Entities/Characters/Body_A/Animations/Hit_Base/Hit_Down-Sheet.png" id="2_eqdch"]
@@ -1062,6 +1062,9 @@ radius = 8.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_eqdch"]
 radius = 16.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_42dgy"]
+radius = 30.0
+
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_6bm75"]
 polygon = PackedVector2Array(-35.5555, 310.204, 177.778, 310.204, 160, 293.878, -17.7778, 293.878)
 
@@ -1072,7 +1075,9 @@ script = ExtResource("1_s4ay6")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(1, 0)
 sprite_frames = SubResource("SpriteFrames_h6w8y")
-animation = &"idle_side"
+animation = &"slice_down"
+frame = 7
+frame_progress = 1.0
 offset = Vector2(0, -15)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -1082,9 +1087,13 @@ shape = SubResource("CircleShape2D_s4ay6")
 
 [node name="player_hitbox" type="Area2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="player_hitbox"]
+[node name="Collision_Attack" type="CollisionShape2D" parent="player_hitbox"]
 position = Vector2(0, -14)
 shape = SubResource("CircleShape2D_eqdch")
+
+[node name="Collision_Slice" type="CollisionShape2D" parent="player_hitbox"]
+position = Vector2(0, -15)
+shape = SubResource("CircleShape2D_42dgy")
 
 [node name="attack_cooldown" type="Timer" parent="."]
 wait_time = 0.5
@@ -1093,6 +1102,7 @@ wait_time = 0.5
 wait_time = 0.5
 
 [node name="player_camera" type="Node2D" parent="."]
+visible = false
 
 [node name="world_camera" type="Camera2D" parent="player_camera"]
 zoom = Vector2(4, 4)
@@ -1117,6 +1127,7 @@ limit_bottom = 240
 [node name="death_timer" type="Timer" parent="."]
 
 [node name="player_light" type="Node2D" parent="."]
+visible = false
 
 [node name="PointLight2D" type="PointLight2D" parent="player_light"]
 position = Vector2(2, -15)

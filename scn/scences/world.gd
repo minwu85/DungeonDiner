@@ -5,6 +5,8 @@ extends Node2D
 @onready var day_night_timer = $light/day_night #call count down 
 @onready var day_text=$CanvasLayer/Day #call day text
 @onready var day_anim=$CanvasLayer/AnimationPlayer #call day text anim
+@onready var health_bar=$CanvasLayer/HealthBar #call healthbar display 
+@onready var player=$player/player #call player
 
 enum TimeState {
 	MORNING,
@@ -15,7 +17,7 @@ var state_time = TimeState.MORNING
 var day_count: int
 
 func _ready():
-	#player position 
+	##player position 
 	if global.game_first_loadin == true:#player first position set 
 		$player/player.position.x = global.player_start_posx
 		$player/player.position.y = global.player_start_posy
@@ -23,7 +25,7 @@ func _ready():
 		$player/player.position.x = global.player_exit_cliffside_posx
 		$player/player.position.y = global.player_exit_cliffside_posy
 	
-	#light change control
+	##light change control
 	time_light.enabled = true
 	if day_night_timer:
 		#day_night_timer.wait_time = 5.0
@@ -34,6 +36,10 @@ func _ready():
 	day_count=1
 	set_day_text()#call display day text
 	day_text_fade()#call display day anim
+	
+	#display player health bar
+	health_bar.max_value=player.max_health
+	health_bar.value=health_bar.max_value
 	
 func _process(delta):
 	change_scene()#call change scence
@@ -80,3 +86,6 @@ func day_text_fade():
 	day_anim.play("day_fade_in")
 	await get_tree().create_timer(3).timeout #stop of 3sec
 	day_anim.play("day_fade_out")
+
+func _on_player_health_change_bar(new_health: Variant) -> void:
+	health_bar.value=new_health

@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+signal health_change_bar(new_health)
+
 enum PlayerState {
 	collect_down, collect_side, collect_up,
 	death_down, death_side, death_up,
@@ -10,25 +12,28 @@ enum PlayerState {
 	walk_down, walk_side, walk_up
 }
 
-var enemy_inattack_range=false
-var enemy_attack_cooldown =true
-var player_alive=true
-var attack_ip=false
+var enemy_inattack_range = false
+var enemy_attack_cooldown = true
+var player_alive = true
+var attack_ip = false
 var is_collecting = false
 
-var health=100
-var gold=0
+var max_health = 100
+var health = 100
+var gold = 0
 var walk_speed = 1.0
 var run_speed = 2.0
-var movement_type = 1  # 1 for walk, 2 for run (used by play_anim)
+var movement_type = 1 # 1 for walk, 2 for run (used by play_anim)
 
 const speed = 100
 var current_dir = "none"
+
 
 @onready var animPlayer=$AnimatedSprite2D
 
 func _ready():
 	animPlayer.play("idle_down")
+	health=max_health
 
 func _physics_process(delta):
 
@@ -37,7 +42,7 @@ func _physics_process(delta):
 		enemy_attack()
 		attack()
 		current_camera()
-
+		
 		if health <= 0:#check player health variable 
 			health = 0
 			player_death()#call deaht animation 
@@ -61,6 +66,11 @@ func player_death():#death animtion for death then directed to menu
 
 	
 func player_movement(delta):
+	
+	if is_collecting:  # Skip movement during collecting
+		velocity = Vector2.ZERO
+		return
+		
 	var speed_multiplier = walk_speed  # default to walking
 	
 	#this set the speed for run 
@@ -158,38 +168,42 @@ func _on_player_hitbox_body_exited(body: Node2D) -> void:
 	if body.has_method("enemy"):
 		enemy_inattack_range=false
 		
+func on_damage_receive(damage: int):
+	if not player_alive:
+		return
+	if enemy_inattack_range and enemy_attack_cooldown:
+		health -= damage
+		enemy_attack_cooldown = false
+		$attack_cooldown.start()
+		#print("Player Health:", health) #display player health in text
+		emit_signal("health_change_bar", health)
+
 func enemy_attack():
 	if not player_alive:
 		return
 	if enemy_inattack_range and enemy_attack_cooldown:
-		health -= 20
+		on_damage_receive(10)
 		enemy_attack_cooldown = false
 		$attack_cooldown.start()
-		print("Player Health:", health)
 
 func _on_attack_cooldown_timeout():
 	enemy_attack_cooldown=true
 
-func attack():#player attack animation 
+func attack():
 	var dir = current_dir
 
-	if Input.is_action_just_pressed("attack"):
+	if Input.is_action_just_pressed("attack") and not attack_ip:
 		global.player_current_attack = true
 		attack_ip = true
-		if dir == "right":
-			animPlayer.flip_h = false
-			animPlayer.play("hit_side")
-			$deal_attack_timer.start()
-		elif dir == "left":
-			animPlayer.flip_h = true
-			animPlayer.play("hit_side")
-			$deal_attack_timer.start()
-		elif dir == "down":
-			animPlayer.play("hit_down")
-			$deal_attack_timer.start()
-		elif dir == "up":
-			animPlayer.play("hit_up")
-			$deal_attack_timer.start()
+		match dir:
+			"right", "left":
+				animPlayer.flip_h = (dir == "left")
+				animPlayer.play("hit_side")
+			"down":
+				animPlayer.play("hit_down")
+			"up":
+				animPlayer.play("hit_up")
+		$deal_attack_timer.start()
 
 	
 func _on_deal_attack_timer_timeout():
@@ -215,12 +229,23 @@ func collect_state():#player collect anim
 	is_collecting = false
 	print("Item collected")
 
-func slice_state():#player collect anim
-	attack_ip = true  # prevent reentry
+
+func slice_state():
+	var slice_damage = 20  # damage dealt when using slice
+	if attack_ip or is_collecting:
+		return
+	global.player_current_slice = true
+	attack_ip = true
+
+	# Enable slice hitbox, disable normal attack hitbox
+	$player_hitbox/Collision_Attack.disabled = true
+	$player_hitbox/Collision_Slice.disabled = false
+	# Play appropriate slice animation
 	match current_dir:
 		"right", "left":
 			animPlayer.flip_h = (current_dir == "left")
 			animPlayer.play("slice_side")
+			print("Player slice executed. Waiting for hit detection...")
 		"down":
 			animPlayer.flip_h = false
 			animPlayer.play("slice_down")
@@ -228,8 +253,13 @@ func slice_state():#player collect anim
 			animPlayer.flip_h = false
 			animPlayer.play("slice_up")
 	await animPlayer.animation_finished
-	print("player slice hit, damage x2")
-	attack_ip = false  # re-enable attack
+	if player_alive:
+		for body in $player_hitbox.get_overlapping_bodies():
+			if body.has_method("receive_damage"):
+				body.receive_damage(slice_damage) # Damage is sent to enemy
+				print("Slice hit enemy: ", body.name)
+	attack_ip = false
+
 
 
 func current_camera():#camera control for scence change 

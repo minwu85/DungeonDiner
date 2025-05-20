@@ -2,7 +2,7 @@ extends Node
 
 
 var player_current_attack=false
-
+var player_current_slice=false
 var current_scene="world"
 var transition_scene=false
 

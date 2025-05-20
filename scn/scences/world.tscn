@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=4 uid="uid://c73xqqw7vgmb7"]
+[gd_scene load_steps=34 format=4 uid="uid://c73xqqw7vgmb7"]
 
 [ext_resource type="Script" uid="uid://dg7i7cdjinwrb" path="res://scn/scences/world.gd" id="1_73xyk"]
 [ext_resource type="Texture2D" uid="uid://b05txwfbvoml" path="res://art/Environment/Props/Static/Trees/Model_02/Size_03.png" id="1_hfnbe"]
@@ -12,7 +12,10 @@
 [ext_resource type="Texture2D" uid="uid://ce1bhttmiq7l4" path="res://art/Environment/Props/Static/Trees/Model_02/Size_02.png" id="8_nxund"]
 [ext_resource type="PackedScene" uid="uid://bsx5o2bhaujvq" path="res://scn/player/player.tscn" id="10_nxund"]
 [ext_resource type="PackedScene" uid="uid://bxya8uarmfgru" path="res://scn/enemy/enemy.tscn" id="11_d4bdn"]
+[ext_resource type="Texture2D" uid="uid://cmdcrw7dgarb4" path="res://art/art2/sprites/Sprite-0003.png" id="14_nu41i"]
+[ext_resource type="Texture2D" uid="uid://crln133ih231e" path="res://art/art2/sprites/Sprite-0001.png" id="15_65e2t"]
 [ext_resource type="PackedScene" uid="uid://dpwpdale33xq6" path="res://scn/collectribles/gold.tscn" id="15_waw5s"]
+[ext_resource type="Texture2D" uid="uid://djmk3eps6mmod" path="res://art/art2/sprites/Sprite-0002.png" id="16_2745l"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nxund"]
 texture = ExtResource("7_0y1m3")
@@ -1999,24 +2002,28 @@ use_parent_material = true
 tile_map_data = PackedByteArray("AAADAAUAAQAAAAAAAAADAAYAAQAAAAEAAAADAAcAAQAAAAIAAAADAAgAAQAAAAMAAAADAAkAAQAAAAQAAAAEAAUAAQABAAAAAAAEAAYAAQABAAEAAAAEAAcAAQABAAIAAAAEAAgAAQABAAMAAAAEAAkAAQABAAQAAAAEAAoAAQABAAUAAAAFAAUAAQACAAAAAAAFAAYAAQACAAEAAAAFAAcAAQACAAIAAAAFAAgAAQACAAMAAAAFAAkAAQACAAQAAAA=")
 tile_set = SubResource("TileSet_7qjlj")
 
-[node name="player" type="Node2D" parent="."]
-
-[node name="player" parent="player" instance=ExtResource("10_nxund")]
-position = Vector2(148, 68)
-
 [node name="enemy" type="Node2D" parent="."]
 
 [node name="enemy" parent="enemy" instance=ExtResource("11_d4bdn")]
 position = Vector2(289, 70)
+
+[node name="player" type="Node2D" parent="."]
+
+[node name="player" parent="player" instance=ExtResource("10_nxund")]
+position = Vector2(148, 68)
 
 [node name="collisions" type="StaticBody2D" parent="."]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="collisions"]
 polygon = PackedVector2Array(1, 0, 264, 0, 464, 0, 464, 165, 486, 165, 486, 202, 464, 202, 464, 240, 119, 240, 119, 255, 83, 255, 84, 240, -8, 240, 0, 239, 0, 200, -10, 200, -10, 188, 0, 188, 0, 20, 0, -9, -7, 5, -31, 6, -25, 267, 492, 268, 513, 146, 488, -19, 29, -18, 2, -6, 1, -1)
 
-[node name="cliffside_transition_point" type="Area2D" parent="."]
+[node name="transition" type="Node2D" parent="."]
+position = Vector2(148, 68)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="cliffside_transition_point"]
+[node name="cliffside_transition_point" type="Area2D" parent="transition"]
+position = Vector2(-148, -68)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="transition/cliffside_transition_point"]
 position = Vector2(475, 183.5)
 shape = SubResource("RectangleShape2D_d4bdn")
 
@@ -2026,9 +2033,9 @@ shape = SubResource("RectangleShape2D_d4bdn")
 position = Vector2(199, 53)
 
 [node name="light" type="Node2D" parent="."]
+visible = false
 
 [node name="sun" type="DirectionalLight2D" parent="light"]
-visible = false
 blend_mode = 1
 range_layer_min = -1
 
@@ -2039,26 +2046,26 @@ autostart = true
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="HP" type="Label" parent="CanvasLayer"]
-offset_left = 4.0
-offset_top = 4.0
-offset_right = 44.0
-offset_bottom = 27.0
+offset_left = 6.0
+offset_top = 63.0
+offset_right = 46.0
+offset_bottom = 86.0
 text = "HP: "
 script = SubResource("GDScript_1oksg")
 
 [node name="Gold" type="Label" parent="CanvasLayer"]
-offset_left = 81.0
-offset_top = 5.0
-offset_right = 126.0
-offset_bottom = 28.0
+offset_left = 7.0
+offset_top = 84.0
+offset_right = 52.0
+offset_bottom = 107.0
 text = "Gold: "
 script = SubResource("GDScript_0y1m3")
 
 [node name="Day" type="Label" parent="CanvasLayer"]
 modulate = Color(1, 1, 1, 0)
-offset_left = 197.0
+offset_left = 196.0
 offset_top = 2.0
-offset_right = 264.0
+offset_right = 263.0
 offset_bottom = 47.0
 theme_override_font_sizes/font_size = 32
 text = "Day "
@@ -2071,5 +2078,19 @@ libraries = {
 &"": SubResource("AnimationLibrary_2dxml")
 }
 
-[connection signal="body_entered" from="cliffside_transition_point" to="." method="_on_cliffside_transition_point_body_entered"]
+[node name="HealthBar" type="TextureProgressBar" parent="CanvasLayer"]
+offset_left = 3.0
+offset_top = 2.0
+offset_right = 173.0
+offset_bottom = 27.0
+value = 50.0
+nine_patch_stretch = true
+texture_under = ExtResource("14_nu41i")
+texture_over = ExtResource("15_65e2t")
+texture_progress = ExtResource("16_2745l")
+tint_over = Color(0.690297, 0.788899, 0.843713, 1)
+tint_progress = Color(0.965649, 0, 0.1388, 1)
+
+[connection signal="health_change_bar" from="player/player" to="." method="_on_player_health_change_bar"]
+[connection signal="body_entered" from="transition/cliffside_transition_point" to="." method="_on_cliffside_transition_point_body_entered"]
 [connection signal="timeout" from="light/day_night" to="." method="_on_day_night_timeout"]
