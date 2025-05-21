@@ -35,7 +35,7 @@ func _ready():
 	#day count
 	day_count=1
 	#set_day_text()#call display day text
-	day_text_fade()#call display day anim
+	#day_text_fade()#call display day anim
 	
 	##display player health bar
 	health_bar.value=global.player_health
@@ -88,10 +88,13 @@ func set_day_ui():
 #func set_day_text():
 #	day_text.text="Day "+str(day_count)
 
-func day_text_fade():
-	day_anim.play("day_fade_in")
-	await get_tree().create_timer(3).timeout #stop of 3sec
-	day_anim.play("day_fade_out")
+#func day_text_fade():
+#	day_anim.play("day_fade_in")
+#	await get_tree().create_timer(3).timeout #stop of 3sec
+#	day_anim.play("day_fade_out")
 
 func _on_player_health_change_bar(new_health: Variant) -> void:
 	health_bar.value=global.player_health
+	
+
+	
