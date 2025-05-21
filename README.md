@@ -3,6 +3,3 @@
 
 
 Theme: Monster restaurant in a fantasy town – players prepare dishes, serve customers, unlock recipes, and uncover secrets of the realm.
-123 hello
-
-testing more
