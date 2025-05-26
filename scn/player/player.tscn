@@ -1,4 +1,4 @@
-[gd_scene load_steps=161 format=3 uid="uid://bsx5o2bhaujvq"]
+[gd_scene load_steps=162 format=3 uid="uid://bsx5o2bhaujvq"]
 
 [ext_resource type="Script" uid="uid://c4nudrtx7785" path="res://scn/player/player.gd" id="1_s4ay6"]
 [ext_resource type="Texture2D" uid="uid://yex0qyciqmwr" path="res://art/Entities/Characters/Body_A/Animations/Hit_Base/Hit_Down-Sheet.png" id="2_eqdch"]
@@ -23,6 +23,7 @@
 [ext_resource type="Texture2D" uid="uid://hbagkcloi76h" path="res://art/Entities/Characters/Body_A/Animations/Slice_Base/Slice_Side-Sheet.png" id="18_6bm75"]
 [ext_resource type="Texture2D" uid="uid://culu0etyxkpri" path="res://art/Entities/Characters/Body_A/Animations/Slice_Base/Slice_Up-Sheet.png" id="19_vj1ur"]
 [ext_resource type="Texture2D" uid="uid://dsd3xb7x4u8ei" path="res://art/art2/circle.png" id="23_6bm75"]
+[ext_resource type="PackedScene" uid="uid://dw4bd4ji2yc74" path="res://scn/player/stats.tscn" id="24_ekghd"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_txj7h"]
 atlas = ExtResource("2_p2nax")
@@ -1140,6 +1141,8 @@ visible = false
 position = Vector2(-3, -18)
 scale = Vector2(0.05625, 0.06125)
 occluder = SubResource("OccluderPolygon2D_6bm75")
+
+[node name="stats" parent="." instance=ExtResource("24_ekghd")]
 
 [connection signal="body_entered" from="player_hitbox" to="." method="_on_player_hitbox_body_entered"]
 [connection signal="body_exited" from="player_hitbox" to="." method="_on_player_hitbox_body_exited"]

@@ -1,28 +1,76 @@
 extends CharacterBody2D
+@onready var animEn = $AnimatedSprite2D
+@onready var damage_cooldown = $take_damage_cooldown
+@onready var enemy_health = $enemy_health
+
+enum PlayerState {
+	IDLE,
+	CHASE,
+	ATTACK,
+	DAMAGE,
+	RECOVER,
+	DEAD
+}
+var state: PlayerState = PlayerState.IDLE:
+	set(value):
+		state = value
+		match state:
+			PlayerState.IDLE:
+				pass
+				#idle_state()
+			PlayerState.CHASE:
+				pass
+				#chase_state()
+			PlayerState.ATTACK:
+				pass
+				#attack_state()
+			PlayerState.RECOVER:
+				recover_state()
+			PlayerState.DEAD:
+				death_state()
 
 var speed = 40 # Enemy movement speed
 var player_chase = false # Whether the enemy should chase the player
 var player = null # Reference to the player node
 
 # Enemy health and status flags
-var health = 50
+
 var player_inattack_zone = false
 var can_take_damage = true
 var alive = true
 
-func _physics_process(delta):
-	handle_damage()  # Check for normal attack damage
+func _ready():
+	$enemy_health.connect("on_death", Callable(self, "death_state"))
 
+	var player = get_node_or_null("../player")
+	if player:
+		player.connect("player_attack", Callable($enemy_health, "receive_damage"))
+
+
+
+func _physics_process(delta):
+	if not alive:
+		death_state()
+		
 	if alive:
-		if player_chase and player != null: # Move toward the player
+		if can_take_damage and (global.player_current_attack or global.player_current_slice) and is_player_in_attack_range():
+			enemy_health.receive_damage(10)
+			can_take_damage = false
+			damage_cooldown.start()
+
+		if player_chase and player != null:
 			position += (player.position - position).normalized() * speed * delta
-			move_and_collide(Vector2(0, 0))  # Simple collision handling
-			$AnimatedSprite2D.play("ske_run")  # Play run animation
-			$AnimatedSprite2D.flip_h = (player.position.x - position.x) < 0 # Flip sprite to face player
+			move_and_collide(Vector2.ZERO)
+			animEn.play("ske_run")
+			animEn.flip_h = (player.position.x - position.x) < 0
+		
 		else:
-			$AnimatedSprite2D.play("ske_idle") # Idle animation when not chasing
+			animEn.play("ske_idle")
 		
 		move_and_slide()
+
+func is_player_in_attack_range() -> bool:
+	return player != null and position.distance_to(player.position) < 40  # tweak as needed
 
 # Player enters detection area
 func _on_detection_area_body_entered(body: Node2D) -> void:
@@ -50,25 +98,18 @@ func _on_enemy_hitbox_body_exited(body):
 	if body.has_method("player"):
 		player_inattack_zone = false
 
-# Make this match what player is calling
-func receive_damage(damage: int):
-	if not alive:
-		return
-	health -= damage
-	print("skeleton health =", health)  # Show skeleton health even when sliced
-	if health <= 0:
-		health = 0
-		alive = false
-		$AnimatedSprite2D.play("ske_death")
-		await $AnimatedSprite2D.animation_finished
-		queue_free()
+func death_state():
+	alive = false
+	animEn.play("ske_death")
+	await animEn.animation_finished
+	queue_free()
 
-# Used only for regular attack (not slice)
-func handle_damage():
-	if player_inattack_zone and global.player_current_attack == true and can_take_damage:
-		receive_damage(10)
-		can_take_damage = false
-		$take_damage_cooldown.start()
 
 func _on_take_damage_cooldown_timeout():
 	can_take_damage = true
+
+func recover_state():
+	animEn.play("ske_recover")
+	await animEn.animation_finished
+	if alive:
+		state = PlayerState.CHASE

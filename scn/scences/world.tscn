@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=4 uid="uid://c73xqqw7vgmb7"]
+[gd_scene load_steps=33 format=4 uid="uid://c73xqqw7vgmb7"]
 
 [ext_resource type="Script" uid="uid://dg7i7cdjinwrb" path="res://scn/scences/world.gd" id="1_73xyk"]
 [ext_resource type="Texture2D" uid="uid://b05txwfbvoml" path="res://art/Environment/Props/Static/Trees/Model_02/Size_03.png" id="1_hfnbe"]
@@ -13,10 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://ce1bhttmiq7l4" path="res://art/Environment/Props/Static/Trees/Model_02/Size_02.png" id="8_nxund"]
 [ext_resource type="PackedScene" uid="uid://bsx5o2bhaujvq" path="res://scn/player/player.tscn" id="10_nxund"]
 [ext_resource type="PackedScene" uid="uid://bxya8uarmfgru" path="res://scn/enemy/enemy.tscn" id="11_d4bdn"]
-[ext_resource type="Texture2D" uid="uid://cmdcrw7dgarb4" path="res://art/art2/sprites/Sprite-0003.png" id="14_nu41i"]
-[ext_resource type="Texture2D" uid="uid://crln133ih231e" path="res://art/art2/sprites/Sprite-0001.png" id="15_65e2t"]
 [ext_resource type="PackedScene" uid="uid://dpwpdale33xq6" path="res://scn/collectribles/gold.tscn" id="15_waw5s"]
-[ext_resource type="Texture2D" uid="uid://djmk3eps6mmod" path="res://art/art2/sprites/Sprite-0002.png" id="16_2745l"]
 [ext_resource type="PackedScene" uid="uid://y5m7h3q0st16" path="res://scn/ui/pausemenu.tscn" id="18_0f8b3"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nxund"]
@@ -2079,29 +2076,15 @@ text = "Day "
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer"]
+[node name="AnimDay" type="AnimationPlayer" parent="CanvasLayer"]
 root_node = NodePath("../Day")
 libraries = {
 &"": SubResource("AnimationLibrary_2dxml")
 }
 
-[node name="HealthBar" type="TextureProgressBar" parent="CanvasLayer"]
-offset_left = 3.0
-offset_top = 2.0
-offset_right = 173.0
-offset_bottom = 27.0
-value = 50.0
-nine_patch_stretch = true
-texture_under = ExtResource("14_nu41i")
-texture_over = ExtResource("15_65e2t")
-texture_progress = ExtResource("16_2745l")
-tint_over = Color(0.690297, 0.788899, 0.843713, 1)
-tint_progress = Color(0.965649, 0, 0.1388, 1)
-
 [node name="pausemenu" parent="CanvasLayer" instance=ExtResource("18_0f8b3")]
 process_mode = 2
 
-[connection signal="health_change_bar" from="player/player" to="." method="_on_player_health_change_bar"]
 [connection signal="body_entered" from="transition/cliffside_transition_point" to="." method="_on_cliffside_transition_point_body_entered"]
 [connection signal="timeout" from="light/day_night" to="." method="_on_day_night_timeout"]
 [connection signal="pressed" from="CanvasLayer/pausemenu/Panel/VBoxContainer/Resume" to="manager" method="_on_resume_pressed"]

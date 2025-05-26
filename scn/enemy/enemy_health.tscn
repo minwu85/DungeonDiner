@@ -1,0 +1,105 @@
+[gd_scene load_steps=7 format=3 uid="uid://bg06mup3tetng"]
+
+[ext_resource type="Script" uid="uid://ca3pqyhi8nljc" path="res://scn/enemy/enemy_health.gd" id="1_7t7fk"]
+[ext_resource type="Texture2D" uid="uid://mw48y5fb8cq6" path="res://art/art2/sprites/mob_healt_empty.png" id="1_b3rib"]
+[ext_resource type="Texture2D" uid="uid://bd7i3uoodeqxy" path="res://art/art2/sprites/mob_healt_progress.png" id="2_7t7fk"]
+
+[sub_resource type="Animation" id="Animation_e5r8v"]
+resource_name = "endamage_txt"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.299763),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-20, -27), Vector2(-19, -55)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.0999211, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_hr4h8"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-20, -27)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vbqia"]
+_data = {
+&"RESET": SubResource("Animation_hr4h8"),
+&"endamage_txt": SubResource("Animation_e5r8v")
+}
+
+[node name="enemy_health" type="Node2D"]
+script = ExtResource("1_7t7fk")
+
+[node name="enemy_healthbar" type="TextureProgressBar" parent="."]
+modulate = Color(1, 1, 1, 0.729412)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -4.0
+offset_right = 32.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+value = 50.0
+nine_patch_stretch = true
+texture_under = ExtResource("1_b3rib")
+texture_progress = ExtResource("2_7t7fk")
+tint_progress = Color(0.683026, 0.130504, 0, 1)
+
+[node name="enemy_healthtxt" type="Label" parent="."]
+offset_left = -20.0
+offset_top = -27.0
+offset_right = 19.0
+offset_bottom = -1.0
+theme_override_colors/font_color = Color(0.733333, 0.0588235, 0.0235294, 1)
+theme_override_font_sizes/font_size = 18
+text = "20"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="enemy_healthtxtAn" type="AnimationPlayer" parent="."]
+root_node = NodePath("../enemy_healthtxt")
+libraries = {
+&"": SubResource("AnimationLibrary_vbqia")
+}

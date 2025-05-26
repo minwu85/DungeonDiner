@@ -1,9 +1,10 @@
-[gd_scene load_steps=27 format=3 uid="uid://bxya8uarmfgru"]
+[gd_scene load_steps=32 format=3 uid="uid://bxya8uarmfgru"]
 
 [ext_resource type="Script" uid="uid://cd14mx4e1fa3a" path="res://scn/enemy/enemy.gd" id="1_iifgy"]
 [ext_resource type="Texture2D" uid="uid://cyh03myxvq7oi" path="res://art/Entities/Mobs/Skeleton Crew/Skeleton - Base/Death/Death-Sheet.png" id="1_qi2p4"]
 [ext_resource type="Texture2D" uid="uid://bikuxi7viv6x7" path="res://art/Entities/Mobs/Skeleton Crew/Skeleton - Base/Idle/Idle-Sheet.png" id="2_iifgy"]
 [ext_resource type="Texture2D" uid="uid://c60cyo6mkacjt" path="res://art/Entities/Mobs/Skeleton Crew/Skeleton - Base/Run/Run-Sheet.png" id="3_epg4t"]
+[ext_resource type="PackedScene" uid="uid://bg06mup3tetng" path="res://scn/enemy/enemy_health.tscn" id="5_bqk0v"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3yqyl"]
 atlas = ExtResource("1_qi2p4")
@@ -50,6 +51,22 @@ atlas = ExtResource("2_iifgy")
 region = Rect2(64, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5hcft"]
+atlas = ExtResource("2_iifgy")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_exfpa"]
+atlas = ExtResource("2_iifgy")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bqk0v"]
+atlas = ExtResource("2_iifgy")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tfl0y"]
+atlas = ExtResource("2_iifgy")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sq6ps"]
 atlas = ExtResource("2_iifgy")
 region = Rect2(96, 0, 32, 32)
 
@@ -127,6 +144,35 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_exfpa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bqk0v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tfl0y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sq6ps")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_exfpa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bqk0v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tfl0y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sq6ps")
+}],
+"loop": true,
+"name": &"ske_recover",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_nnovl")
 }, {
 "duration": 1.0,
@@ -162,12 +208,14 @@ radius = 17.0
 script = ExtResource("1_iifgy")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_as_relative = false
 position = Vector2(0, 4)
 sprite_frames = SubResource("SpriteFrames_jpbtr")
-animation = &"ske_death"
+animation = &"ske_recover"
 offset = Vector2(0, -35)
 
 [node name="detection_area" type="Area2D" parent="."]
+visible = false
 position = Vector2(2, -10)
 collision_layer = 2
 collision_mask = 2
@@ -181,6 +229,7 @@ position = Vector2(0, -7)
 shape = SubResource("CircleShape2D_qku5p")
 
 [node name="enemy_hitbox" type="Area2D" parent="."]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="enemy_hitbox"]
 position = Vector2(0, -13)
@@ -188,6 +237,10 @@ shape = SubResource("CircleShape2D_iifgy")
 
 [node name="take_damage_cooldown" type="Timer" parent="."]
 wait_time = 0.5
+
+[node name="enemy_health" parent="." instance=ExtResource("5_bqk0v")]
+position = Vector2(0, -51)
+scale = Vector2(0.38, 0.38)
 
 [connection signal="body_entered" from="detection_area" to="." method="_on_detection_area_body_entered"]
 [connection signal="body_exited" from="detection_area" to="." method="_on_detection_area_body_exited"]
