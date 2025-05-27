@@ -34,3 +34,5 @@ nine_patch_stretch = true
 texture_under = ExtResource("5_j4kmg")
 texture_progress = ExtResource("6_jk587")
 tint_progress = Color(1, 1, 0.678431, 1)
+
+[connection signal="changed" from="HealthBar" to="." method="_on_health_bar_changed"]

@@ -18,6 +18,7 @@ config/icon="res://art/icon.svg"
 [autoload]
 
 global="*res://scn/scences/global.gd"
+signals="*res://scn/player/signals.gd"
 
 [display]
 

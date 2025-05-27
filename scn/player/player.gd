@@ -168,7 +168,7 @@ func player():
 	pass
 
 func _on_player_hitbox_body_entered(body):#player detected attack
-	if body.has_method("receive_damage"):
+	if body.has_method("enemy"):
 		enemy_inattack_range = true
 		emit_signal("attack", attack_current)
 		
@@ -177,8 +177,6 @@ func _on_player_hitbox_body_exited(body: Node2D) -> void:
 		enemy_inattack_range=false
 		
 func on_damage_receive(damage: int):
-	if not player_alive:
-		return
 	if stats.player_health <= 0:#check player health variable 
 			stats.player_health = 0
 			player_death()#call deaht animation 
@@ -186,9 +184,9 @@ func on_damage_receive(damage: int):
 		stats.player_health -= damage
 		enemy_attack_cooldown = false
 		$attack_cooldown.start()
-		#print("Player Health:", health) #display player health in text
+		print("Player Health:", stats.player_health) #display player health in text
 		emit_signal("health_change_bar", stats.player_health)
-	
+		
 func enemy_attack():
 	if not player_alive:
 		return
@@ -207,7 +205,9 @@ func attack():
 	if Input.is_action_just_pressed("attack") and not attack_ip:
 		global.player_current_attack = true
 		attack_ip = true
+		
 		stats.stamina_cost=stats.attack_cost #attack_cost=10
+		stats.stamina_consumption()
 		match dir:
 			"right", "left":
 				animPlayer.flip_h = (dir == "left")
@@ -250,7 +250,10 @@ func slice_state():
 		return
 	global.player_current_slice = true
 	attack_ip = true
+	
 	stats.stamina_cost=stats.slice_cost #slice_cost=20
+	stats.stamina_consumption()
+	
 	# Enable slice hitbox, disable normal attack hitbox
 	$player_hitbox/Collision_Attack.disabled = true
 	$player_hitbox/Collision_Slice.disabled = false
