@@ -41,7 +41,7 @@ var alive = true
 
 func _ready():
 	$enemy_health.connect("on_death", Callable(self, "death_state"))
-	
+
 	var player = get_node_or_null("../player")
 	if player:
 		player.connect("player_attack", Callable($enemy_health, "receive_damage"))

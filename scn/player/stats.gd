@@ -3,7 +3,8 @@ extends CanvasLayer
 @onready var health_bar = $HealthBar
 @onready var stamina_bar = $stamina
 
-var max_playerhealth =100
+var max_player_health := 100
+var _player_health := max_player_health
 
 var stamina=50
 var stamina_cost
@@ -12,13 +13,24 @@ var slice_cost=20
 var run_cost=5
 
 var player_health:
+	get: return _player_health
 	set(value):
-		player_health =value
-		health_bar.value=player_health
+		_player_health = clamp(value, 0, max_player_health)
+		if health_bar:
+			health_bar.value = _player_health
+
 func _ready() -> void:
-	player_health=max_playerhealth
-	health_bar.max_value = max_playerhealth
-	health_bar.value = health_bar.max_value
+	if health_bar:
+		health_bar.max_value = max_player_health
+		health_bar.value = _player_health
+
+# Optional function to apply damage
+func apply_damage(amount: int) -> void:
+	player_health -= amount
+
+# Optional function to heal
+func heal(amount: int) -> void:
+	player_health += amount
 
 func _process(delta: float) -> void:
 	stamina_bar.value=stamina
@@ -26,5 +38,4 @@ func _process(delta: float) -> void:
 		stamina+=10*delta
 		
 func stamina_consumption():
-	stamina -= stamina_cost
-	print("Stamina reduced by", stamina_cost, "Remaining:", stamina)
+	stamina-=stamina_cost
