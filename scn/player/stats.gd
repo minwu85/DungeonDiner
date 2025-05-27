@@ -1,16 +1,9 @@
 extends CanvasLayer
 
 @onready var health_bar = $HealthBar
-@onready var stamina_bar = $stamina
 
-var max_player_health := 100
+var max_player_health := 1000
 var _player_health := max_player_health
-
-var stamina=50
-var stamina_cost
-var attack_cost=10
-var slice_cost=20
-var run_cost=5
 
 var player_health:
 	get: return _player_health
@@ -31,11 +24,3 @@ func apply_damage(amount: int) -> void:
 # Optional function to heal
 func heal(amount: int) -> void:
 	player_health += amount
-
-func _process(delta: float) -> void:
-	stamina_bar.value=stamina
-	if stamina<100:
-		stamina+=10*delta
-		
-func stamina_consumption():
-	stamina-=stamina_cost

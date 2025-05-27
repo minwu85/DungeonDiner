@@ -31,7 +31,6 @@ var current_dir = "none"
 
 
 @onready var animPlayer=$AnimatedSprite2D
-@onready var newAnim=$AnimationPlayer
 @onready var stats=$stats
 
 
@@ -86,7 +85,6 @@ func player_movement(delta):
 	if player_alive and Input.is_action_pressed("slice") and not attack_ip:
 		slice_state()
 
-
 	
 	#player movement action
 	if Input.is_action_pressed("ui_right") or Input.is_action_pressed("move_right"):
@@ -125,8 +123,7 @@ func play_anim(movement):#play movement animation
 		if movement == 1:
 			animPlayer.play("walk_side")
 		elif movement==2:
-			newAnim.play("run_side")	
-			stats.stamina_cost=stats.run_cost	
+			animPlayer.play("run_side")		
 		elif movement == 0:
 			if attack_ip == false:
 				animPlayer.play("idle_side")
@@ -135,8 +132,7 @@ func play_anim(movement):#play movement animation
 		if movement == 1:
 			animPlayer.play("walk_side")
 		elif movement==2:
-			newAnim.play("run_side")	
-			stats.stamina_cost=stats.run_cost
+			animPlayer.play("run_side")	
 		elif movement == 0:
 			if attack_ip == false:
 				animPlayer.play("idle_side")
@@ -145,8 +141,7 @@ func play_anim(movement):#play movement animation
 		if movement == 1:
 			animPlayer.play("walk_down")
 		elif movement==2:
-			newAnim.play("run_down")	
-			stats.stamina_cost=stats.run_cost
+			animPlayer.play("run_down")	
 		elif movement == 0:
 			if attack_ip == false:
 				animPlayer.play("idle_down")
@@ -155,8 +150,7 @@ func play_anim(movement):#play movement animation
 		if movement == 1:
 			animPlayer.play("walk_up")
 		elif movement==2:
-			newAnim.play("run_up")	
-			stats.stamina_cost=stats.run_cost
+			animPlayer.play("run_up")	
 		elif movement == 0:
 			if attack_ip == false:
 				animPlayer.play("idle_up")
@@ -207,15 +201,14 @@ func attack():
 	if Input.is_action_just_pressed("attack") and not attack_ip:
 		global.player_current_attack = true
 		attack_ip = true
-		stats.stamina_cost=stats.attack_cost #attack_cost=10
 		match dir:
 			"right", "left":
 				animPlayer.flip_h = (dir == "left")
-				newAnim.play("hit_side")
+				animPlayer.play("hit_side")
 			"down":
-				newAnim.play("hit_down")
+				animPlayer.play("hit_down")
 			"up":
-				newAnim.play("hit_up")
+				animPlayer.play("hit_up")
 		$deal_attack_timer.start()
 
 	
@@ -250,7 +243,7 @@ func slice_state():
 		return
 	global.player_current_slice = true
 	attack_ip = true
-	stats.stamina_cost=stats.slice_cost #slice_cost=20
+
 	# Enable slice hitbox, disable normal attack hitbox
 	$player_hitbox/Collision_Attack.disabled = true
 	$player_hitbox/Collision_Slice.disabled = false
@@ -273,7 +266,7 @@ func slice_state():
 				body.receive_damage(attack_current) # Damage is sent to enemy
 				print("Slice hit enemy: ", body.name)
 	attack_ip = false
-	attack_multiplier = 1 #reset back to 1
+	attack_multiplier = 1
 
 
 

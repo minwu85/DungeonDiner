@@ -7,51 +7,31 @@
 script = ExtResource("1_fkgru")
 
 [node name="play" type="Button" parent="."]
-offset_left = 213.0
-offset_top = 61.0
-offset_right = 368.0
-offset_bottom = 137.0
-theme_override_font_sizes/font_size = 36
+offset_left = 474.0
+offset_top = 124.0
+offset_right = 690.0
+offset_bottom = 224.0
+theme_override_font_sizes/font_size = 48
 text = "Play"
 
 [node name="quit" type="Button" parent="."]
-offset_left = 519.0
-offset_top = 312.0
-offset_right = 631.0
-offset_bottom = 354.0
-theme_override_font_sizes/font_size = 20
+offset_left = 1027.0
+offset_top = 595.0
+offset_right = 1139.0
+offset_bottom = 637.0
+theme_override_font_sizes/font_size = 24
 text = "Quit"
 
 [node name="setting" type="Button" parent="."]
-offset_left = 212.0
-offset_top = 217.0
-offset_right = 367.0
-offset_bottom = 279.0
-theme_override_font_sizes/font_size = 24
+offset_left = 473.0
+offset_top = 250.0
+offset_right = 691.0
+offset_bottom = 348.0
+theme_override_font_sizes/font_size = 48
 text = "Setting"
-
-[node name="load" type="Button" parent="."]
-offset_left = 213.0
-offset_top = 149.0
-offset_right = 368.0
-offset_bottom = 207.0
-theme_override_font_sizes/font_size = 24
-text = "Load
-"
-
-[node name="credit" type="Button" parent="."]
-offset_left = 521.0
-offset_top = 225.0
-offset_right = 630.0
-offset_bottom = 305.0
-theme_override_font_sizes/font_size = 20
-text = "Credit
-"
 
 [node name="start_menu_background" parent="." instance=ExtResource("2_ig1x2")]
 
 [connection signal="pressed" from="play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="quit" to="." method="_on_quit_pressed"]
 [connection signal="pressed" from="setting" to="." method="_on_setting_pressed"]
-[connection signal="pressed" from="load" to="." method="_on_setting_pressed"]
-[connection signal="pressed" from="credit" to="." method="_on_setting_pressed"]
