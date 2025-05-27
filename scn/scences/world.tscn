@@ -2036,6 +2036,7 @@ shape = SubResource("RectangleShape2D_d4bdn")
 position = Vector2(199, 53)
 
 [node name="light" type="Node2D" parent="."]
+visible = false
 
 [node name="sun" type="DirectionalLight2D" parent="light"]
 blend_mode = 1
@@ -2088,6 +2089,7 @@ process_mode = 2
 [connection signal="body_entered" from="transition/cliffside_transition_point" to="." method="_on_cliffside_transition_point_body_entered"]
 [connection signal="timeout" from="light/day_night" to="." method="_on_day_night_timeout"]
 [connection signal="pressed" from="CanvasLayer/pausemenu/Panel/VBoxContainer/Resume" to="manager" method="_on_resume_pressed"]
+[connection signal="pressed" from="CanvasLayer/pausemenu/Panel/VBoxContainer/Inventory" to="manager" method="_on_inventory_pressed"]
 [connection signal="pressed" from="CanvasLayer/pausemenu/Panel/VBoxContainer/Quit" to="manager" method="_on_quit_pressed"]
 
 [editable path="CanvasLayer/pausemenu"]
